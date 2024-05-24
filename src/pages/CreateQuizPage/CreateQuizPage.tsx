@@ -1,7 +1,10 @@
 /* eslint-disable import/no-cycle */
 import React, { createContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Form from '../../components/Form/Form';
+import createQuiz from '../../requests/createQuiz';
 import { Quiz } from '../../types/Quiz';
 import defaultQuiz from '../../utils/defaultValues/DefaultQuiz';
 
@@ -13,16 +16,14 @@ export const CreateQuizContext = createContext<QuizContext | null>(null);
 
 export default function QuizForm(): JSX.Element {
   const [formData, setFormData] = useState<Quiz>(defaultQuiz);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
-    const quizzes: Quiz[] = JSON.parse(localStorage.getItem('quizzes') as string);
-
-    if (quizzes) {
-      quizzes.push(formData);
-      localStorage.setItem('quizzes', JSON.stringify(quizzes));
-    }
+    await createQuiz(formData).then((res) => {
+      navigate('/');
+      toast.success(res);
+    });
   };
 
   return (

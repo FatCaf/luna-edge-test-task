@@ -1,8 +1,10 @@
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import App from './App';
 import CreateQuizPage from './pages/CreateQuizPage/CreateQuizPage';
@@ -14,10 +16,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/quiz" element={<QuizPage />} />
+        <Route path="/quiz/:id" element={<QuizPage />} />
         <Route path="/create-quiz" element={<CreateQuizPage />} />
-        <Route path="/edit-quiz" element={<EditQuizPage />} />
+        <Route path="/edit-quiz/:id" element={<EditQuizPage />} />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   </React.StrictMode>
 );

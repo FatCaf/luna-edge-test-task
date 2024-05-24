@@ -64,6 +64,7 @@ export default function QuestionBlock({
         <input
           type="text"
           name="question"
+          required
           defaultValue={text}
           onChange={(e) => handleQuestionChange(e.target.value)}
         />
