@@ -70,6 +70,7 @@ export default function AnswerBlock({
         <input
           type="text"
           name="answer"
+          required
           value={text}
           onChange={(e) => handleAnswerChange(e.target.value)}
         />

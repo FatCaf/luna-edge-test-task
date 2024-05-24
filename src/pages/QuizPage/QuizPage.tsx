@@ -1,34 +1,33 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
+import getQuizById from '../../requests/getQuizById';
 import { Quiz } from '../../types/Quiz';
 import { UserAnswer } from '../../types/UserAnswer';
+import defaultQuiz from '../../utils/defaultValues/DefaultQuiz';
+import makeAnswerForm from '../../utils/makeAnswerForm';
 import QuizForm from './components/QuizForm';
 import QuizResult from './components/QuizResult';
 
-const makeAnswerForm = (quiz: Quiz): UserAnswer => {
-  const answerForm: UserAnswer = {};
-
-  quiz.questions.forEach((item) => {
-    answerForm[item.text] = '';
-  });
-
-  return answerForm;
-};
-
 export default function QuizPage(): JSX.Element {
-  const [quiz, setQuiz] = useState<Quiz>();
+  const [quiz, setQuiz] = useState<Quiz>(defaultQuiz);
   const [questionsQuantity, setQuestionsQuantity] = useState(0);
   const [userAnswers, setUserAnswers] = useState<UserAnswer>();
-
+  const { id } = useParams();
   const [isQuizFinished, setIsQuizFinished] = useState(false);
-  useEffect(() => {
-    const response: Quiz = JSON.parse(localStorage.getItem('quizzes') as string)[0];
 
-    setQuiz(response);
-    setQuestionsQuantity(response.questions.length);
-    const answerForm = makeAnswerForm(response);
-    setUserAnswers(answerForm);
-  }, []);
+  useEffect(() => {
+    const getQuiz = async (): Promise<void> => {
+      const response: Quiz = await getQuizById(id);
+
+      setQuiz(response);
+      setQuestionsQuantity(response.questions.length);
+      const answerForm = makeAnswerForm(response);
+      setUserAnswers(answerForm);
+    };
+
+    getQuiz();
+  }, [id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserAnswers((prev) => ({

@@ -48,6 +48,7 @@ export default function Form({ formData, setFormData, handleSubmit }: FormProps)
               type="text"
               name="quizName"
               value={formData.quizName}
+              required
               onChange={handleQuizNameChange}
             />
           </label>
