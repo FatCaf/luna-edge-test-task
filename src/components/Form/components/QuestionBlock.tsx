@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import { Answer } from '../../../types/Answer';
 import { Question } from '../../../types/Question';
@@ -14,10 +14,10 @@ type QuestionBlockProps = Question & {
 };
 
 export default function QuestionBlock({
-  id, text, answers
+  id, text, answers, rightAnswer
 }: QuestionBlockProps): JSX.Element {
   const context = useContext(FormContext);
-
+  const [clickedAnswer, setClickedAnswer] = useState(rightAnswer.id);
   const handleQuestionChange = (value: string): void => {
     if (context) {
       const { formData, setFormData } = context;
@@ -58,19 +58,23 @@ export default function QuestionBlock({
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-2">
-      <label>
+    <div className="flex flex-col justify-center items-center p-2 gap-2 border-2 rounded-md border-violet-800
+    w-full"
+    >
+      <label className="p-2 flex items-center gap-2 w-full">
         Question:
+        {' '}
         <input
+          className="outline-none border-b-2 w-full"
           type="text"
           name="question"
           required
           defaultValue={text}
           onChange={(e) => handleQuestionChange(e.target.value)}
         />
-        <button type="button" onClick={deleteQuestion}>X</button>
+        <button className="p-2 bg-red-400 rounded-md max-w-9 min-w-9" type="button" onClick={deleteQuestion}>X</button>
       </label>
-      <button type="button" onClick={() => addAnswer(id)}>
+      <button className="p-2 rounded-md bg-green-400 max-w-36 min-w-28" type="button" onClick={() => addAnswer(id)}>
         Add Answer
       </button>
       {answers.map((answer) => (
@@ -78,6 +82,8 @@ export default function QuestionBlock({
           key={answer.id}
           {...answer}
           questionId={id}
+          setClickedAnswer={setClickedAnswer}
+          clickedAnswer={clickedAnswer}
         />
       ))}
     </div>

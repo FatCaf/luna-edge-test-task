@@ -34,19 +34,26 @@ export default function QuizForm({
   };
 
   return (
-    <>
+    <div className="w-full">
       <p>
         Questions:
+        {' '}
         {currentIndex + 1}
         /
         {questionsQuantity}
       </p>
-      <form className="flex gap-2 flex-col justify-center items-center" onSubmit={handleSubmit}>
-        <p>{currentQuestion && currentQuestion.text}</p>
+      <hr />
+      <form className="flex gap-4 flex-col justify-center items-center" onSubmit={handleSubmit}>
+        <p className="text-2xl font-semibold">{currentQuestion && currentQuestion.text}</p>
         {currentQuestion && currentQuestion.answers.map((answer) => (
-          <label id={answer.id} key={answer.id}>
-            {answer.text}
+          <label
+            id={answer.id}
+            key={answer.id}
+            className="max-w-2xl min-w-52 justify-between
+           flex p-4 bg-slate-300 rounded-md self-start"
+          >
             <input
+              className="cursor-pointer"
               type="radio"
               name={currentQuestion.text}
               id={answer.id}
@@ -54,10 +61,16 @@ export default function QuizForm({
               required
               onChange={handleChange}
             />
+            {answer.text}
           </label>
         ))}
-        <button type="submit">{questionsQuantity - 1 === currentIndex ? 'Submit' : 'Next'}</button>
+        <button
+          className="p-2 bg-green-400 rounded-md self-start"
+          type="submit"
+        >
+          {questionsQuantity - 1 === currentIndex ? 'Submit' : 'Next'}
+        </button>
       </form>
-    </>
+    </div>
   );
 }

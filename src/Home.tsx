@@ -1,19 +1,17 @@
-
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import QuizPreview from './pages/QuizPage/components/QuizPreview';
+import prepopulate from './prepopulateQuiz';
 import deleteQuiz from './requests/deleteQuiz';
 import findQuizByName from './requests/findQuizByName';
 import getAllQuizzes from './requests/getAllQuizzes';
 import { Quiz } from './types/Quiz';
 
-// prepopulate();
+prepopulate();
 
-export default function App(): JSX.Element {
+export default function Home(): JSX.Element {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [quizName, setQuizName] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getQuiz = async (): Promise<void> => {
@@ -46,15 +44,21 @@ export default function App(): JSX.Element {
   };
 
   return (
-    <section>
-      <form onSubmit={handleSubmit}>
+    <section className="mt-20 flex flex-col justify-start items-center gap-8">
+      <h1 className="font-bold text-5xl">Choose a quiz</h1>
+      <form className="self-start p-2 border-2 rounded-md border-violet-800" onSubmit={handleSubmit}>
         <label>
-          <input type="text" name="quiz-search" placeholder="Enter quiz name" onChange={handleChange} />
+          <input
+            className="outline-none"
+            type="text"
+            name="quiz-search"
+            placeholder="Enter quiz name"
+            onChange={handleChange}
+          />
         </label>
-        <button type="submit">Find</button>
+        <button className="p-2 w-14 rounded-md hover:bg-purple-400" type="submit">Find</button>
       </form>
-      <button type="button" onClick={(): void => navigate('/create-quiz')}>CreateQuiz</button>
-      <div className=" grid grid-flow-col grid-cols-4 gap-4">
+      <div className=" grid grid-flow-col grid-cols-4 gap-4 self-start">
         {quizzes.map((quiz) => <QuizPreview key={quiz.id} {...quiz} handleDelete={handleDelete} />)}
       </div>
     </section>

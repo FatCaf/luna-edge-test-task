@@ -1,12 +1,12 @@
 import { toast } from 'react-toastify';
 
 import { Quiz } from '../types/Quiz';
-import QUIZZES from './tableNames';
+import getQuizzesFromStorage from './getQuizzesFromStorage';
 import TIMEOUT_VALUE from './timeoutValue';
 
 const findQuizByName = (name: string): Promise<Quiz> => new Promise((resolve, reject) => {
   setTimeout(() => {
-    const quizzes: Quiz[] = JSON.parse(localStorage.getItem(QUIZZES) as string);
+    const quizzes = getQuizzesFromStorage();
 
     if (quizzes) {
       const foundQuiz = quizzes.find((quiz) => quiz.quizName.match(name));

@@ -37,18 +37,18 @@ export default function QuizPage(): JSX.Element {
   };
 
   return (
-    <div>
+    <section className="mt-20 flex flex-col justify-start items-center gap-8">
       {isQuizFinished ? <QuizResult quiz={quiz} answers={userAnswers} /> : (
-        <>
-          <h2>{quiz && quiz.quizName}</h2>
+        <div className="flex flex-col justify-start items-center gap-8 min-w-full">
+          <h1 className="font-bold text-5xl">{quiz && quiz.quizName}</h1>
           <QuizForm
             quiz={quiz}
             questionsQuantity={questionsQuantity}
             setIsQuizFinished={setIsQuizFinished}
             handleChange={handleChange}
           />
-        </>
+        </div>
       )}
-    </div>
+    </section>
   );
 }
