@@ -25,14 +25,15 @@ const compareAnswers = (quiz: Quiz | undefined, answers: UserAnswer | undefined)
 
 export default function QuizResult({ quiz, answers }: QuizResultProps): JSX.Element {
   return (
-    <div>
-      <h2>
-        You have finished:
-        {quiz && quiz.quizName}
-      </h2>
-      <p>
-        Your result is:
-        {compareAnswers(quiz, answers)}
+    <div className="flex flex-col justify-center items-center gap-10">
+      <h1 className="font-bold text-5xl">
+        Congratulations
+      </h1>
+      <h3 className="font-bold text-2xl">
+        {`You have finished: ${quiz && quiz.quizName}`}
+      </h3>
+      <p className="font-bold text-2xl">
+        {`Your result is: ${compareAnswers(quiz, answers)} of ${quiz?.questions.length}`}
       </p>
     </div>
   );

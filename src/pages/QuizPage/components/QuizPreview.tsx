@@ -13,12 +13,34 @@ export default function QuizPreview({ id, quizName, handleDelete }: QuizPReviewP
 
   return (
     <div
-      className="p-4 border-2 rounded-md border-violet-800 cursor-pointer"
+      className="flex flex-col justify-start items-center
+      gap-2 p-4 border-2 rounded-md border-violet-800
+      max-w-96 min-w-64 bg-violet-300"
     >
-      <p className="text-3xl font-bold underline">{quizName}</p>
-      <button type="button" onClick={(): void => navigate(`/quiz/${id}`)}>Start</button>
-      <button type="button" onClick={(): void => navigate(`/edit-quiz/${id}`)}>Edit</button>
-      <button type="button" onClick={(): Promise<void> => handleDelete(id)}>Delete</button>
+      <p className="text-3xl font-bold text-yellow-200">{quizName}</p>
+      <div className="flex items-center gap-1">
+        <button
+          className="p-2 rounded-md hover:bg-green-400"
+          type="button"
+          onClick={(): void => navigate(`/quiz/${id}`)}
+        >
+          Start
+        </button>
+        <button
+          className="p-2 rounded-md hover:bg-yellow-400"
+          type="button"
+          onClick={(): void => navigate(`/edit-quiz/${id}`)}
+        >
+          Edit
+        </button>
+        <button
+          className="p-2 rounded-md hover:bg-red-400"
+          type="button"
+          onClick={(): Promise<void> => handleDelete(id)}
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 }

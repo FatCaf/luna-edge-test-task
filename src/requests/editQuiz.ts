@@ -1,12 +1,13 @@
 import { toast } from 'react-toastify';
 
 import { Quiz } from '../types/Quiz';
-import QUIZZES from './tableNames';
+import getQuizzesFromStorage from './getQuizzesFromStorage';
+import TABLES from './tableNames';
 import TIMEOUT_VALUE from './timeoutValue';
 
 const editQuiz = (quiz: Quiz): Promise<string> => new Promise((resolve, reject) => {
   setTimeout(() => {
-    const quizzes: Quiz[] = JSON.parse(localStorage.getItem(QUIZZES) as string);
+    const quizzes = getQuizzesFromStorage();
 
     if (quizzes) {
       let found = false;
@@ -21,7 +22,7 @@ const editQuiz = (quiz: Quiz): Promise<string> => new Promise((resolve, reject) 
       });
 
       if (found) {
-        localStorage.setItem(QUIZZES, JSON.stringify(updatedQuizzes));
+        localStorage.setItem(TABLES.QUIZZES, JSON.stringify(updatedQuizzes));
         resolve('Quiz updated successfully.');
       } else {
         reject(toast.error('Quiz not found.'));

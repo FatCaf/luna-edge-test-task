@@ -8,10 +8,12 @@ type AnswerBlockProps = Answer & {
   id: string,
   text: string,
   questionId: string,
+  setClickedAnswer: React.Dispatch<React.SetStateAction<string>>,
+  clickedAnswer: string,
 };
 
 export default function AnswerBlock({
-  id, text, questionId
+  id, text, questionId, clickedAnswer, setClickedAnswer
 }: AnswerBlockProps): JSX.Element {
   const context = useContext(FormContext);
 
@@ -32,7 +34,7 @@ export default function AnswerBlock({
     }
   };
 
-  const handleChooseRightAnswer = (): void => {
+  const handleChooseRightAnswer = (e: React.MouseEvent<HTMLButtonElement>): void => {
     if (context) {
       const { formData, setFormData } = context;
       setFormData({
@@ -44,6 +46,7 @@ export default function AnswerBlock({
           }
           : question)),
       });
+      setClickedAnswer(e.currentTarget.id);
     }
   };
 
@@ -64,18 +67,27 @@ export default function AnswerBlock({
   };
 
   return (
-    <div>
-      <label>
+    <div className="flex flex-col justify-center items-center p-2 gap-2 border-2 rounded-md border-violet-800 w-full">
+      <label className="flex items-center gap-2 w-full">
         Answer:
         <input
+          className="outline-none border-b-2 w-8/12"
           type="text"
           name="answer"
           required
           value={text}
           onChange={(e) => handleAnswerChange(e.target.value)}
         />
-        <button type="button" onClick={deleteAnswer}>X</button>
-        <button type="button" onClick={handleChooseRightAnswer}>Right answer</button>
+        <button className="p-2 bg-red-400 rounded-md max-w-9 min-w-9" type="button" onClick={deleteAnswer}>X</button>
+        <button
+          id={id}
+          className={`p-2 rounded-md  outline outline-2
+          outline-yellow-400  hover:bg-transparent ${id === clickedAnswer ? 'bg-transparent' : 'bg-yellow-400'}`}
+          type="button"
+          onClick={handleChooseRightAnswer}
+        >
+          Right answer
+        </button>
       </label>
     </div>
   );
